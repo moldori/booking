@@ -60,7 +60,13 @@ public class BookingController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/{id}/rooms/{roomId}")
+    public ResponseEntity<BookingDTO> addRoomToBooking(@PathVariable Long id, @PathVariable Long roomId) {
+        Booking booking = bookingService.addRoomToBooking(id, roomId);
 
+        BookingDTO bookingDTO = new BookingDTO(booking);
+        return ResponseEntity.ok(bookingDTO);
+    }
 
 
 
