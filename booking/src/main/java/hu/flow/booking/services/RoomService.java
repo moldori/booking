@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -42,4 +43,15 @@ public class RoomService {
     public void deleteRoom(Long id) {
         roomRepository.deleteById(id);
     }
+
+    public List<Room> findAllByHotelId(Long hotelId) {
+        List<Room> listOfRooms = roomRepository.findAll()
+                .stream()
+                .filter(x -> x.getHotel().getId() == hotelId)
+                .collect(Collectors.toList());
+        return listOfRooms;
+
+
+    }
+
 }

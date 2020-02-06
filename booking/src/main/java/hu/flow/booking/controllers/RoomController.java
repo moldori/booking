@@ -60,4 +60,15 @@ public class RoomController {
         roomService.deleteRoom(id);
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/findAllByHotelId/{hotelId}")
+    public ResponseEntity<List<RoomDTO>> findAllByHotelId(@PathVariable Long hotelId) {
+        List<Room> roomList = roomService.findAllByHotelId(hotelId);
+
+        List<RoomDTO> listOfDTOs = roomList.stream().map(room -> {
+            RoomDTO roomDTO = new RoomDTO(room);
+            return roomDTO;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(listOfDTOs);
+    }
+
 }
