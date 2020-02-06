@@ -18,21 +18,21 @@ import { HotelComponent } from './hotel/hotel.component';
 import { BookingComponent } from './booking/booking.component';
 import { RoomComponent } from './room/room.component';
 import { GueatListComponent } from './guest/gueat-list/gueat-list.component';
-import { RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { NewbookingComponent } from './booking/newbooking/newbooking.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import { FormsModule , ReactiveFormsModule} from '@angular/forms';
-import {MatNativeDateModule} from '@angular/material';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HttpClientModule } from '@angular/common/http';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
+import { AuthGuard } from './services/auth-guard';
 
 
 const router: Routes = [
-
-  {path: "newbooking", component: NewbookingComponent},
-  
-
+  { path: '', redirectTo: 'login', pathMatch: 'full'},
+  { path: "login", component: LoginComponent },
+  { path: "newbooking", component: NewbookingComponent, canActivate: [AuthGuard] },
 ]
 
 @NgModule({
