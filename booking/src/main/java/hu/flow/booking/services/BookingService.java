@@ -5,6 +5,7 @@ import hu.flow.booking.models.Room;
 import hu.flow.booking.models.dto.BookingDTO;
 import hu.flow.booking.repositories.BookingRepository;
 import hu.flow.booking.repositories.RoomRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +14,18 @@ import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class BookingService {
 
-    @Autowired
     private BookingRepository bookingRepository;
-    private RoomRepository roomRepository;
+    private RoomService roomService;
 
     public List<Booking> findAll() {
         return bookingRepository.findAll();
     }
 
     public Booking findOne(Long id) {
-        return bookingRepository.findById(id).orElse(null);
+        return bookingRepository.findById(id).orElseThrow();
     }
 
     public Booking saveBooking(BookingDTO bookingDTO) {
@@ -47,9 +48,9 @@ public class BookingService {
     }
 
     public Booking addRoomToBooking(Long id, Long roomsId) {
-        Booking booking = bookingRepository.findById(id).orElse(null);
+        Booking booking = bookingRepository.findById(id).orElseThrow();
         List<Room> listOfRooms = booking.getRooms();
-        listOfRooms.add(roomRepository.findById(roomsId).orElse(null));
+        listOfRooms.add(roomService.findOne(roomsId));
         booking.setRooms(listOfRooms);
         return bookingRepository.save(booking);
     }

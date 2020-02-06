@@ -21,7 +21,7 @@ public class GuestService {
     }
 
     public Guest findOne(Long id) {
-        return guestRepository.findById(id).orElse(null);
+        return guestRepository.findById(id).orElseThrow();
     }
 
     public Guest saveGuest(GuestDTO guestDTO) {

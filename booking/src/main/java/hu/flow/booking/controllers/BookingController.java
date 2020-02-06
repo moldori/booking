@@ -19,39 +19,22 @@ public class BookingController {
 
     @GetMapping
     public ResponseEntity<List<BookingDTO>> findAll() {
-        List<Booking> bookingList = bookingService.findAll();
-
-        List<BookingDTO> listOfDTOs = bookingList.stream().map(booking -> {
-            BookingDTO bookingDTO = new BookingDTO(booking);
-            return bookingDTO;
-        }).collect(Collectors.toList());
-        return ResponseEntity.ok(listOfDTOs);
-
-        //return bookingService.findAll();
+        return ResponseEntity.ok(bookingService.findAll().stream().map(BookingDTO::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BookingDTO> findOne(@PathVariable Long id) {
-        Booking booking = bookingService.findOne(id);
-
-        BookingDTO bookingDTO = new BookingDTO(booking);
-        return ResponseEntity.ok(bookingDTO);
+        return ResponseEntity.ok(new BookingDTO(bookingService.findOne(id)));
     }
 
     @PostMapping
     public ResponseEntity<BookingDTO> saveBooking(@RequestBody BookingDTO bookingDTO) {
-        Booking booking = bookingService.saveBooking(bookingDTO);
-        BookingDTO newBookingDTO = new BookingDTO(booking);
-        return ResponseEntity.ok(newBookingDTO);
-        // return bookingService.saveBooking(booking);
+        return ResponseEntity.ok(new BookingDTO(bookingService.saveBooking(bookingDTO)));
     }
 
     @PutMapping
     public ResponseEntity<BookingDTO> updateBooking(@RequestBody BookingDTO bookingDTO) {
-        Booking booking = bookingService.updateBooking(bookingDTO);
-        BookingDTO newBookingDTO = new BookingDTO(booking);
-        return ResponseEntity.ok(newBookingDTO);
-        //return bookingService.updateBooking(booking);
+        return ResponseEntity.ok(new BookingDTO(bookingService.updateBooking(bookingDTO)));
     }
 
     @DeleteMapping("/{id}")
@@ -62,10 +45,7 @@ public class BookingController {
 
     @PutMapping("/{id}/rooms/{roomId}")
     public ResponseEntity<BookingDTO> addRoomToBooking(@PathVariable Long id, @PathVariable Long roomId) {
-        Booking booking = bookingService.addRoomToBooking(id, roomId);
-
-        BookingDTO bookingDTO = new BookingDTO(booking);
-        return ResponseEntity.ok(bookingDTO);
+        return ResponseEntity.ok(new BookingDTO(bookingService.addRoomToBooking(id, roomId)));
     }
 
 

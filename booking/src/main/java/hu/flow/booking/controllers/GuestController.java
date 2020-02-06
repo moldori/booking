@@ -20,39 +20,22 @@ public class GuestController {
 
     @GetMapping
     public ResponseEntity<List<GuestDTO>> findAll() {
-        List<Guest> guestList = guestService.findAll();
-
-        List<GuestDTO> listOfDTOs = guestList.stream().map(guest -> {
-            GuestDTO guestDTO = new GuestDTO(guest);
-            return guestDTO;
-        }).collect(Collectors.toList());
-        return ResponseEntity.ok(listOfDTOs);
-
-        //return guestService.findAll();
+        return ResponseEntity.ok(guestService.findAll().stream().map(GuestDTO::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GuestDTO> findOne(@PathVariable Long id) {
-        Guest guest = guestService.findOne(id);
-
-        GuestDTO guestDTO = new GuestDTO(guest);
-        return ResponseEntity.ok(guestDTO);
+        return ResponseEntity.ok(new GuestDTO(guestService.findOne(id)));
     }
 
     @PostMapping
     public ResponseEntity<GuestDTO> saveGuest(@RequestBody GuestDTO guestDTO) {
-        Guest guest = guestService.saveGuest(guestDTO);
-        GuestDTO newGuestDTO = new GuestDTO(guest);
-        return ResponseEntity.ok(newGuestDTO);
-        // return guestService.saveGuest(guest);
+        return ResponseEntity.ok(new GuestDTO(guestService.saveGuest(guestDTO)));
     }
 
     @PutMapping
     public ResponseEntity<GuestDTO> updateGuest(@RequestBody GuestDTO guestDTO) {
-        Guest guest = guestService.updateGuest(guestDTO);
-        GuestDTO newGuestDTO = new GuestDTO(guest);
-        return ResponseEntity.ok(newGuestDTO);
-        //return guestService.updateGuest(guest);
+        return ResponseEntity.ok(new GuestDTO(guestService.updateGuest(guestDTO)));
     }
 
     @DeleteMapping("/{id}")

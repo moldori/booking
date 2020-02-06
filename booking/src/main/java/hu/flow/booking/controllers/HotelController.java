@@ -19,39 +19,22 @@ public class HotelController {
 
     @GetMapping
     public ResponseEntity<List<HotelDTO>> findAll() {
-        List<Hotel> hotelList = hotelService.findAll();
-
-        List<HotelDTO> listOfDTOs = hotelList.stream().map(hotel -> {
-           HotelDTO hotelDTO = new HotelDTO(hotel);
-           return hotelDTO;
-        }).collect(Collectors.toList());
-        return ResponseEntity.ok(listOfDTOs);
-
-        //return hotelService.findAll();
+        return ResponseEntity.ok(hotelService.findAll().stream().map(HotelDTO::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<HotelDTO> findOne(@PathVariable Long id) {
-        Hotel hotel = hotelService.findOne(id);
-
-        HotelDTO hotelDTO = new HotelDTO(hotel);
-        return ResponseEntity.ok(hotelDTO);
+        return ResponseEntity.ok(new HotelDTO(hotelService.findOne(id)));
     }
 
     @PostMapping
     public ResponseEntity<HotelDTO> saveHotel(@RequestBody HotelDTO hotelDTO) {
-        Hotel hotel = hotelService.saveHotel(hotelDTO);
-        HotelDTO newHotelDTO = new HotelDTO(hotel);
-        return ResponseEntity.ok(newHotelDTO);
-        // return hotelService.saveHotel(hotel);
+        return ResponseEntity.ok(new HotelDTO(hotelService.saveHotel(hotelDTO)));
     }
 
     @PutMapping
     public ResponseEntity<HotelDTO> updateHotel(@RequestBody HotelDTO hotelDTO) {
-        Hotel hotel = hotelService.updateHotel(hotelDTO);
-        HotelDTO newHotelDTO = new HotelDTO(hotel);
-        return ResponseEntity.ok(newHotelDTO);
-        //return hotelService.updateHotel(hotel);
+        return ResponseEntity.ok(new HotelDTO(hotelService.updateHotel(hotelDTO)));
     }
 
     @DeleteMapping("/{id}")

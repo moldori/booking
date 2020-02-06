@@ -20,39 +20,22 @@ public class RoomController {
 
     @GetMapping
     public ResponseEntity<List<RoomDTO>> findAll() {
-        List<Room> roomList = roomService.findAll();
-
-        List<RoomDTO> listOfDTOs = roomList.stream().map(room -> {
-            RoomDTO roomDTO = new RoomDTO(room);
-            return roomDTO;
-        }).collect(Collectors.toList());
-        return ResponseEntity.ok(listOfDTOs);
-
-        //return roomService.findAll();
+        return ResponseEntity.ok(roomService.findAll().stream().map(RoomDTO::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomDTO> findOne(@PathVariable Long id) {
-        Room room = roomService.findOne(id);
-
-        RoomDTO roomDTO = new RoomDTO(room);
-        return ResponseEntity.ok(roomDTO);
+        return ResponseEntity.ok(new RoomDTO(roomService.findOne(id)));
     }
 
     @PostMapping
     public ResponseEntity<RoomDTO> saveRoom(@RequestBody RoomDTO roomDTO) {
-        Room room = roomService.saveRoom(roomDTO);
-        RoomDTO newRoomDTO = new RoomDTO(room);
-        return ResponseEntity.ok(newRoomDTO);
-        // return roomService.saveRoom(room);
+        return ResponseEntity.ok(new RoomDTO(roomService.saveRoom(roomDTO)));
     }
 
     @PutMapping
     public ResponseEntity<RoomDTO> updateRoom(@RequestBody RoomDTO roomDTO) {
-        Room room = roomService.updateRoom(roomDTO);
-        RoomDTO newRoomDTO = new RoomDTO(room);
-        return ResponseEntity.ok(newRoomDTO);
-        //return roomService.updateRoom(Room);
+        return ResponseEntity.ok(new RoomDTO(roomService.updateRoom(roomDTO)));
     }
 
     @DeleteMapping("/{id}")

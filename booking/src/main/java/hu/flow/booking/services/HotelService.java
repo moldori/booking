@@ -3,6 +3,7 @@ package hu.flow.booking.services;
 import hu.flow.booking.models.Hotel;
 import hu.flow.booking.models.dto.HotelDTO;
 import hu.flow.booking.repositories.HotelRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,9 @@ import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class HotelService {
 
-    @Autowired
     private HotelRepository hotelRepository;
 
     public List<Hotel> findAll() {
@@ -21,7 +22,7 @@ public class HotelService {
     }
 
     public Hotel findOne(Long id) {
-        return hotelRepository.findById(id).orElse(null);
+        return hotelRepository.findById(id).orElseThrow();
     }
 
     public Hotel saveHotel(HotelDTO hotelDTO) {
