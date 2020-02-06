@@ -46,13 +46,7 @@ public class RoomService {
     }
 
     public List<Room> findAllByHotelId(Long hotelId) {
-        List<Room> listOfRooms = roomRepository.findAll()
-                .stream()
-                .filter(x -> x.getHotel().getId() == hotelId)
-                .collect(Collectors.toList());
-        return listOfRooms;
-
-
+        return roomRepository.findByHotel_Id(hotelId);
     }
 
 }

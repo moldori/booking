@@ -45,13 +45,7 @@ public class RoomController {
     }
     @GetMapping("/findAllByHotelId/{hotelId}")
     public ResponseEntity<List<RoomDTO>> findAllByHotelId(@PathVariable Long hotelId) {
-        List<Room> roomList = roomService.findAllByHotelId(hotelId);
-
-        List<RoomDTO> listOfDTOs = roomList.stream().map(room -> {
-            RoomDTO roomDTO = new RoomDTO(room);
-            return roomDTO;
-        }).collect(Collectors.toList());
-        return ResponseEntity.ok(listOfDTOs);
+        return ResponseEntity.ok(roomService.findAllByHotelId(hotelId).stream().map(RoomDTO::new).collect(Collectors.toList()));
     }
 
 }
