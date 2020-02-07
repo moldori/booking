@@ -1,5 +1,6 @@
 import { Hotel } from "./hotel";
 import { Guest } from "./guest";
+import { Room } from './room';
 
 export class Booking {
 
@@ -9,9 +10,11 @@ export class Booking {
 
     guest : Guest;
 
-    checkIn : [];
+    checkIn : Date;
 
-    checkOut : [];
+    checkOut : Date;
+
+    rooms: Room[];
 
 
 }

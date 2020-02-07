@@ -24,15 +24,20 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatRadioModule } from '@angular/material/radio';
 import { AuthGuard } from './services/auth-guard';
+import { ListArrivalsComponent } from './booking/list-arrivals/list-arrivals.component';
+import { ListLeavingComponent } from './booking/list-leaving/list-leaving.component';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 
 const router: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},
   { path: "login", component: LoginComponent },
   { path: "newbooking", component: NewbookingComponent, canActivate: [AuthGuard] },
+  { path: "list-arivals", component: ListArrivalsComponent, canActivate: [AuthGuard] },
+  { path: "list-leaving", component: ListLeavingComponent, canActivate: [AuthGuard] },
 ]
 
 @NgModule({
@@ -45,7 +50,9 @@ const router: Routes = [
     BookingComponent,
     RoomComponent,
     GueatListComponent,
-    NewbookingComponent
+    NewbookingComponent,
+    ListArrivalsComponent,
+    ListLeavingComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +75,12 @@ const router: Routes = [
     MatRadioModule
   ],
   providers: [
-    MatDatepickerModule
+    MatDatepickerModule,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

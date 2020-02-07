@@ -1,12 +1,18 @@
 package hu.flow.booking.services;
 
 import hu.flow.booking.models.Booking;
+import hu.flow.booking.models.Hotel;
 import hu.flow.booking.models.Room;
+import hu.flow.booking.models.User;
 import hu.flow.booking.models.dto.BookingDTO;
 import hu.flow.booking.repositories.BookingRepository;
 import hu.flow.booking.repositories.RoomRepository;
+import hu.flow.booking.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.authentication.UserServiceBeanDefinitionParser;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,10 +21,12 @@ import java.util.List;
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class BookingService {
 
     private BookingRepository bookingRepository;
     private RoomService roomService;
+    private AuthService authService;
 
     public List<Booking> findAll() {
         return bookingRepository.findAll();
@@ -54,4 +62,9 @@ public class BookingService {
         booking.setRooms(listOfRooms);
         return bookingRepository.save(booking);
     }
+
+    public List<Booking> findAllByHotelId() {
+        return bookingRepository.findByHotel_Id(authService.getCurrentHotelId());
+    }
+
 }

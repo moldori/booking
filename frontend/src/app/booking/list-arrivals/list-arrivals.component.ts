@@ -17,7 +17,7 @@ export class ListArrivalsComponent implements OnInit {
   constructor(private bookingService: BookingService) { }
 
   ngOnInit() {
-    this.bookingService.getBookingNumbersByHotelId(1).subscribe(bookings => {
+    this.bookingService.getBookingNumbersByHotelId().subscribe(bookings => {
       this.bookings = bookings;
     })
   }

@@ -30,6 +30,9 @@ public class User implements UserDetails {
     private String password;
     private final String role = ROLE_USER;
 
+    @ManyToOne
+    private Hotel hotel;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role));

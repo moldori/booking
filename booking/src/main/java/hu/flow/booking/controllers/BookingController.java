@@ -2,6 +2,7 @@ package hu.flow.booking.controllers;
 
 import hu.flow.booking.models.Booking;
 import hu.flow.booking.models.dto.BookingDTO;
+import hu.flow.booking.models.dto.RoomDTO;
 import hu.flow.booking.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,11 @@ public class BookingController {
     @PutMapping("/{id}/rooms/{roomId}")
     public ResponseEntity<BookingDTO> addRoomToBooking(@PathVariable Long id, @PathVariable Long roomId) {
         return ResponseEntity.ok(new BookingDTO(bookingService.addRoomToBooking(id, roomId)));
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<List<BookingDTO>> findAllByHotelId() {
+        return ResponseEntity.ok(bookingService.findAllByHotelId().stream().map(BookingDTO::new).collect(Collectors.toList()));
     }
 
 
